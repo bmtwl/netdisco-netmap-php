@@ -5,6 +5,8 @@ PHP scripts for generating interactive network topology maps and switch port dia
 
 The hierarchy is based on the location field (device snmp location string) format being **Site/Building/Room**
 
+![screenshot](demodiagram.png)
+
 ## Features
 
 ### Netmap (`netmap.php`)
