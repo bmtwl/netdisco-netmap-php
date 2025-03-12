@@ -83,7 +83,7 @@ Access with switch IP parameter:
 - Check location filter matches Netdisco data
 - Verify database contains devices with proper location format
 - Ensure vendor filtering isn't excluding all devices
-- Verify that subgraph has at least two nodes that are directly connected
+- Verify that filtered subgraph has at least two nodes that are directly connected
 
 **Diagram rendering issues**:
 - Verify Mermaid.js is properly loaded
