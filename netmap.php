@@ -1,12 +1,9 @@
 <?php
+require_once 'config.php';
+
 // Configuration Section
-$db_host = 'localhost';
-$db_name = 'netdisco';
-$db_user = 'netdisco_ro';
-$db_pass = 'securepassword';
 $netdisco_base_url = '/netdisco2/device?q=';
 $script_base_url = '/nettools';
-$location_filter = trim($_GET['location_filter'])  ?? '' ;
 // put the set of vendors you want to see in your maps in this array
 $filtervendors = array('hp', 'aruba', 'palo', 'force', 'ubiquiti', 'f5');
 

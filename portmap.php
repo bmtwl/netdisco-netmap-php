@@ -1,10 +1,6 @@
 <?php
-// Netdisco Switch Port Mapper Configuration
-$db_host = 'localhost';
-$db_name = 'netdisco';
-$db_user = 'netdisco_ro';
-$db_pass = 'securepassword';
-$base_url = '/netdisco2/device?q=';
+require_once 'config.php';
+
 $switch_ip = $_GET['switch_ip'] ?? '';
 
 if (!filter_var($switch_ip, FILTER_VALIDATE_IP)) {
