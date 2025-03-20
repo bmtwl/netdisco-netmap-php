@@ -6,12 +6,15 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - .:/var/www/html
+      - ./netmap.php:/var/www/html/netmap.php
+      - ./portmap.php:/var/www/html/portmap.php
+      - ./config.php:/var/www/html/config.php
     environment:
-      - DB_HOST=host.docker.internal:5433
+      - DB_HOST=host.docker.internal
+      - DB_PORT=5437
       - DB_NAME=DM
       - DB_USER=netdisco
-      - DB_PASS=nd@bit
+      - DB_PASS=megatops3cret
       - NETDISCO_BASE_URL=/netdisco2/device?q=
       - SCRIPT_BASE_URL=/nettools
     extra_hosts:
@@ -37,4 +40,6 @@ volumes:
 
 networks:
   netdisco-network:
+    driver: bridge
+  default:
     driver: bridge 
