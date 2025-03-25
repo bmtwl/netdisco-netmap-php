@@ -72,7 +72,7 @@ $stmt = $pdo->prepare("
 
     $switchName = $data[0]['switch_name'] ?: $switch_ip;
     $switchModel = $data[0]['switch_model'] ?: 'Unknown Model';
-    $mermaid .= "    switch[\"<div style='padding:10px'><h3>$switchName</h3>$switchModel<br/><small><a href='$base_url$switch_ip'>$switch_ip</a></small></div>\"]:::switch\n";
+    $mermaid .= "    switch[\"<div style='padding:10px'><h3>$switchName</h3>$switchModel<br/><small><a href='$netdisco_base_url$switch_ip'>$switch_ip</a></small></div>\"]:::switch\n";
 
     $linkStyle = "";
     $linkindex = 0;
