@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./netmap.php:/var/www/html/netmap.php
+      - ./portmap.php:/var/www/html/portmap.php
+      - ./config.php:/var/www/html/config.php
+    environment:
+      - DB_HOST=host.docker.internal
+      - DB_PORT=5437
+      - DB_NAME=DM
+      - DB_USER=netdisco
+      - DB_PASS=megatops3cret
+      - NETDISCO_BASE_URL=/netdisco2/device?q=
+      - SCRIPT_BASE_URL=/nettools
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - netdisco-network
+
+  # db:
+  #   image: postgres:15
+  #   environment:
+  #     - POSTGRES_DB=netdisco
+  #     - POSTGRES_USER=netdisco_ro
+  #     - POSTGRES_PASSWORD=securepassword
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+  #   networks:
+  #     - netdisco-network
+
+volumes:
+  postgres_data:
+
+networks:
+  netdisco-network:
+    driver: bridge
+  default:
+    driver: bridge 

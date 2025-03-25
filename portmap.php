@@ -1,10 +1,6 @@
 <?php
-// Netdisco Switch Port Mapper Configuration
-$db_host = 'localhost';
-$db_name = 'netdisco';
-$db_user = 'netdisco_ro';
-$db_pass = 'securepassword';
-$base_url = '/netdisco2/device?q=';
+require_once 'config.php';
+
 $switch_ip = $_GET['switch_ip'] ?? '';
 
 if (!filter_var($switch_ip, FILTER_VALIDATE_IP)) {
@@ -12,7 +8,7 @@ if (!filter_var($switch_ip, FILTER_VALIDATE_IP)) {
 }
 
 try {
-    $pdo = new PDO("pgsql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
+    $pdo = new PDO("pgsql:host=$db_host;port=$db_port;dbname=$db_name", $db_user, $db_pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Query for switch and its endpoints
@@ -76,7 +72,7 @@ $stmt = $pdo->prepare("
 
     $switchName = $data[0]['switch_name'] ?: $switch_ip;
     $switchModel = $data[0]['switch_model'] ?: 'Unknown Model';
-    $mermaid .= "    switch[\"<div style='padding:10px'><h3>$switchName</h3>$switchModel<br/><small><a href='$base_url$switch_ip'>$switch_ip</a></small></div>\"]:::switch\n";
+    $mermaid .= "    switch[\"<div style='padding:10px'><h3>$switchName</h3>$switchModel<br/><small><a href='$netdisco_base_url$switch_ip'>$switch_ip</a></small></div>\"]:::switch\n";
 
     $linkStyle = "";
     $linkindex = 0;

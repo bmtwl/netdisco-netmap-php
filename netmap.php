@@ -1,17 +1,17 @@
 <?php
+require_once 'config.php';
+
 // Configuration Section
-$db_host = 'localhost';
-$db_name = 'netdisco';
-$db_user = 'netdisco_ro';
-$db_pass = 'securepassword';
 $netdisco_base_url = '/netdisco2/device?q=';
 $script_base_url = '/nettools';
-$location_filter = trim($_GET['location_filter'])  ?? '' ;
+$location_filter = trim($_GET['location_filter'] ?? '');
+$foo = "FML";
 // put the set of vendors you want to see in your maps in this array
-$filtervendors = array('hp', 'aruba', 'palo', 'force', 'ubiquiti', 'f5');
+//$filtervendors = array('hp', 'aruba', 'palo', 'force', 'ubiquiti', 'f5');
+// BEZ/AAA/b
 
 try {
-    $pdo = new PDO("pgsql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
+    $pdo = new PDO("pgsql:host=$db_host;port=$db_port;dbname=$db_name", $db_user, $db_pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $sql = "
@@ -41,7 +41,7 @@ try {
             (select sum(power) from device_power dpow where dpow.ip = d.ip) as power,
             (select sum(power) from device_power dpow where dpow.ip = dr.ip) as remote_power
         FROM device_port dp
-        LEFT JOIN device d ON dp.ip = d.ip
+        LEFT JOIN device d ON dp.ip = d.ip 
         LEFT JOIN device dr ON dp.remote_ip = dr.ip
         WHERE 
             (dp.is_uplink = true OR dp.remote_type = 'wlan')
@@ -59,10 +59,10 @@ try {
     $sql .= str_replace("d.vendor ","dr.vendor ",$vendorfilter);
 
     $sql .= "\n        ORDER BY d.location || dr.location, d.ip, dp.port";
-
+    //echo $sql;
     $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(':location_filter', $location_filter . '%');
-    $stmt->bindValue(':location_filter_remote', $location_filter . '%');
+    $stmt->bindValue(':location_filter', ($location_filter ?? '') . '%');
+    $stmt->bindValue(':location_filter_remote', ($location_filter ?? '') . '%');
     $stmt->execute();
     $links = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -225,7 +225,7 @@ try {
 <html>
 <head>
     <title>Network Topology</title>
-    <script src="mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.5.0/dist/mermaid.min.js"></script>
     <style>
         .mermaid {
             font-family: sans-serif;
@@ -263,7 +263,10 @@ try {
         <button onclick="resetZoom()">Reset Zoom</button>
         <button onclick="copyMermaid()">Copy Mermaid</button>
         <br><br>
-        <form method="GET" onsubmit="return applyLocationFilter()" action=""><input type="text" id="location_filter" placeholder="Location Filter..." value="$location_filter"><button type="submit">Apply Filter</button></form>
+        <form method="GET" onsubmit="return applyLocationFilter()" action="">
+            <input type="text" id="location_filter" placeholder="Location Filter..." value="$location_filter">
+            <button type="submit">Apply Filter</button>
+        </form>
     </div>
     <div class="mermaid">
         $htmlMermaid
