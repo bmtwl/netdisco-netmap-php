@@ -3,7 +3,8 @@
 
 PHP scripts for generating interactive network topology maps and switch port diagrams using Mermaid.js and Netdisco data.
 
-The hierarchy is based on the location field (device snmp location string) format being **Site/Building/Room**
+> [!IMPORTANT]
+> The hierarchy is based on the location field (device snmp location string) format being **Site/Building/Room** and **THIS PROJECT WON'T WORK** unless it is adhered to consistently
 
 ![screenshot](demodiagram.png)
 
